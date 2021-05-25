@@ -17,3 +17,42 @@ ________________________________________________________________________________
 #Loading a new rule
 
 # udevadm control --reload
+
+----------------------------------------------------------------------------------------
+
+#copy_sd.sh
+
+#!/bin/bash
+
+set -e
+
+SD="mmcblk0p2"
+DEST="/sd/$SD/"
+SRC="/media/sd/"
+DIR=$(date "+%m%d%Y-%H.%M.%S")
+FULL="$DEST$DIR"
+
+mkdir -p "$FULL"
+mkdir -p "$FULL/logs"
+
+pushd $FULL/logs
+pwd
+popd
+
+mkdir -p "$FULL/home/pi"
+
+pushd $FULL/home/pi
+pwd
+popd
+
+echo "made directories"
+
+#sudo find $SRC/var/log/ | grep "syslog" | sudo cp "$FULL/logs/"
+
+cp $SRC/var/log/syslog* "$FULL/logs/"
+
+# cp -R "$SRC/var/log/syslog" "$FULL/logs"
+# cp -R "$SRC/home/pi" "$FULL/home/pi"
+ls -alh "$DEST"
+
+echo "copied to $DEST"
